@@ -9,6 +9,6 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "8.0"
   s.requires_arc = true
   s.source       = { :git => "https://github.com/KerwinLan/HNetworkManager.git", :tag => "#{s.version}" }
-  s.source_files  = "HNetworkManager/*.{h,m}"
+  s.source_files  = "HNetworkManager/HNetworkManager/*.{h,m}"
 
 end
