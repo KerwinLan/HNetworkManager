@@ -27,7 +27,7 @@
     if (self.requestId != -1 && !self.allowMultiRequest) {
         [[HNetworkProxy sharedInstance] cancelRequestWithId:self.requestId];
     }
-    NSAssert(self.methodName.length, @"%@ -- methodName property is empty", NSStringFromClass([self class]));
+    NSAssert(self.methodName.length == 0, @"%@ -- methodName property is empty", NSStringFromClass([self class]));
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSString stringWithFormat:@"%@%@", self.baseURL, self.methodName]
                                              requestType:self.requestType
                                                parameter:self.requestBody
