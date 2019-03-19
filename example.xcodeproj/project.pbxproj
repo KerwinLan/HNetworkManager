@@ -23,8 +23,13 @@
 		5FEB1B1221B91BB000A318F8 /* NSError+HNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEB1B0621B91BAF00A318F8 /* NSError+HNetwork.m */; };
 		5FEB1B1321B91BB000A318F8 /* NSURLRequest+HExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEB1B0821B91BAF00A318F8 /* NSURLRequest+HExtension.m */; };
 		5FEB1B1421B91BB000A318F8 /* NSURLRequest+HNetworkParamter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEB1B0A21B91BAF00A318F8 /* NSURLRequest+HNetworkParamter.m */; };
-		5FEB1B1521B91BB000A318F8 /* HNetworkProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEB1B0C21B91BAF00A318F8 /* HNetworkProxy.m */; };
+		5FEB1B1521B91BB000A318F8 /* HNetworkQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEB1B0C21B91BAF00A318F8 /* HNetworkQueueManager.m */; };
 		5FEB1B1621B91BB000A318F8 /* HNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEB1B0F21B91BB000A318F8 /* HNetworkManager.m */; };
+		D3C037E2224093B8007FB4FE /* HNetworkTask.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C037E1224093B8007FB4FE /* HNetworkTask.m */; };
+		D3C037E82240E681007FB4FE /* DemoNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C037E72240E681007FB4FE /* DemoNetworkManager.m */; };
+		D3C037EE2240E769007FB4FE /* DemoNetworkOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C037ED2240E769007FB4FE /* DemoNetworkOptions.m */; };
+		D3C037F22240F05F007FB4FE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C037F02240F05F007FB4FE /* ViewController.m */; };
+		D3C037F32240F05F007FB4FE /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3C037F12240F05F007FB4FE /* ViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,10 +84,19 @@
 		5FEB1B0921B91BAF00A318F8 /* NSURLRequest+HNetworkParamter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+HNetworkParamter.h"; sourceTree = "<group>"; };
 		5FEB1B0A21B91BAF00A318F8 /* NSURLRequest+HNetworkParamter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+HNetworkParamter.m"; sourceTree = "<group>"; };
 		5FEB1B0B21B91BAF00A318F8 /* NSError+HNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+HNetwork.h"; sourceTree = "<group>"; };
-		5FEB1B0C21B91BAF00A318F8 /* HNetworkProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNetworkProxy.m; sourceTree = "<group>"; };
-		5FEB1B0D21B91BB000A318F8 /* HNetworkProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNetworkProxy.h; sourceTree = "<group>"; };
+		5FEB1B0C21B91BAF00A318F8 /* HNetworkQueueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNetworkQueueManager.m; sourceTree = "<group>"; };
+		5FEB1B0D21B91BB000A318F8 /* HNetworkQueueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNetworkQueueManager.h; sourceTree = "<group>"; };
 		5FEB1B0E21B91BB000A318F8 /* HNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNetworkManager.h; sourceTree = "<group>"; };
 		5FEB1B0F21B91BB000A318F8 /* HNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNetworkManager.m; sourceTree = "<group>"; };
+		D3C037E0224093B8007FB4FE /* HNetworkTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNetworkTask.h; sourceTree = "<group>"; };
+		D3C037E1224093B8007FB4FE /* HNetworkTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNetworkTask.m; sourceTree = "<group>"; };
+		D3C037E62240E681007FB4FE /* DemoNetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoNetworkManager.h; sourceTree = "<group>"; };
+		D3C037E72240E681007FB4FE /* DemoNetworkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoNetworkManager.m; sourceTree = "<group>"; };
+		D3C037EC2240E769007FB4FE /* DemoNetworkOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoNetworkOptions.h; sourceTree = "<group>"; };
+		D3C037ED2240E769007FB4FE /* DemoNetworkOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoNetworkOptions.m; sourceTree = "<group>"; };
+		D3C037EF2240F05F007FB4FE /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		D3C037F02240F05F007FB4FE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D3C037F12240F05F007FB4FE /* ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +154,13 @@
 				5FEB1ACC21B91B0D00A318F8 /* LaunchScreen.storyboard */,
 				5FEB1ACF21B91B0D00A318F8 /* Info.plist */,
 				5FEB1AD021B91B0D00A318F8 /* main.m */,
+				D3C037E62240E681007FB4FE /* DemoNetworkManager.h */,
+				D3C037E72240E681007FB4FE /* DemoNetworkManager.m */,
+				D3C037EC2240E769007FB4FE /* DemoNetworkOptions.h */,
+				D3C037ED2240E769007FB4FE /* DemoNetworkOptions.m */,
+				D3C037EF2240F05F007FB4FE /* ViewController.h */,
+				D3C037F02240F05F007FB4FE /* ViewController.m */,
+				D3C037F12240F05F007FB4FE /* ViewController.xib */,
 			);
 			path = example;
 			sourceTree = "<group>";
@@ -171,8 +192,8 @@
 				5FEB1B0F21B91BB000A318F8 /* HNetworkManager.m */,
 				5FEB1B0721B91BAF00A318F8 /* HNetworkLogger.h */,
 				5FEB1B0321B91BAF00A318F8 /* HNetworkLogger.m */,
-				5FEB1B0D21B91BB000A318F8 /* HNetworkProxy.h */,
-				5FEB1B0C21B91BAF00A318F8 /* HNetworkProxy.m */,
+				5FEB1B0D21B91BB000A318F8 /* HNetworkQueueManager.h */,
+				5FEB1B0C21B91BAF00A318F8 /* HNetworkQueueManager.m */,
 				5FEB1B0B21B91BAF00A318F8 /* NSError+HNetwork.h */,
 				5FEB1B0621B91BAF00A318F8 /* NSError+HNetwork.m */,
 				5FEB1B0221B91BAF00A318F8 /* NSObject+HNetworkParameter.h */,
@@ -190,6 +211,8 @@
 				5FEB1AF921B91B8D00A318F8 /* HNetworkInterceptor.m */,
 				5FEB1AFA21B91B8D00A318F8 /* HNetworkResponseHandler.h */,
 				5FEB1AF621B91B8D00A318F8 /* HNetworkResponseHandler.m */,
+				D3C037E0224093B8007FB4FE /* HNetworkTask.h */,
+				D3C037E1224093B8007FB4FE /* HNetworkTask.m */,
 			);
 			path = HNetworkManager;
 			sourceTree = "<group>";
@@ -298,6 +321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FEB1ACB21B91B0D00A318F8 /* Assets.xcassets in Resources */,
+				D3C037F32240F05F007FB4FE /* ViewController.xib in Resources */,
 				5FEB1ACE21B91B0D00A318F8 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,19 +347,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3C037F22240F05F007FB4FE /* ViewController.m in Sources */,
 				5FEB1AFC21B91B8D00A318F8 /* HNetworkDispatchHandler.m in Sources */,
 				5FEB1AD121B91B0D00A318F8 /* main.m in Sources */,
-				5FEB1B1521B91BB000A318F8 /* HNetworkProxy.m in Sources */,
+				5FEB1B1521B91BB000A318F8 /* HNetworkQueueManager.m in Sources */,
+				D3C037EE2240E769007FB4FE /* DemoNetworkOptions.m in Sources */,
 				5F48C31E21C207ED00D64272 /* HNetwork.m in Sources */,
 				5FEB1B1621B91BB000A318F8 /* HNetworkManager.m in Sources */,
 				5FEB1B0121B91BA000A318F8 /* HNetworkOptions.m in Sources */,
 				5FEB1AC921B91B0B00A318F8 /* AppDelegate.m in Sources */,
 				5FEB1B1021B91BB000A318F8 /* HNetworkLogger.m in Sources */,
 				5FEB1B1121B91BB000A318F8 /* NSObject+HNetworkParameter.m in Sources */,
+				D3C037E82240E681007FB4FE /* DemoNetworkManager.m in Sources */,
 				5FEB1B1421B91BB000A318F8 /* NSURLRequest+HNetworkParamter.m in Sources */,
 				5FEB1B1221B91BB000A318F8 /* NSError+HNetwork.m in Sources */,
 				5FEB1B1321B91BB000A318F8 /* NSURLRequest+HExtension.m in Sources */,
 				5FEB1AFD21B91B8D00A318F8 /* HNetworkInterceptor.m in Sources */,
+				D3C037E2224093B8007FB4FE /* HNetworkTask.m in Sources */,
 				5FEB1AFB21B91B8D00A318F8 /* HNetworkResponseHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

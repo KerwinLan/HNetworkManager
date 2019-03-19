@@ -7,7 +7,7 @@
 //
 
 #import "HNetworkManager.h"
-#import "HNetworkProxy.h"
+#import "HNetworkQueueManager.h"
 #import "NSError+HNetwork.h"
 #import "HNetworkLogger.h"
 
@@ -19,13 +19,15 @@
     if (self) {
         self.requestId = -1;
         self.requestType = HNetworkRequestTypeGET;
+        self.showMessageEnable = YES;
+        self.cachePolicy = HNetworkCachePolicyRemote;
     }
     return self;
 }
 
 - (void)fetch {
     if (self.requestId != -1 && !self.allowMultiRequest) {
-        [[HNetworkProxy sharedInstance] cancelRequestWithId:self.requestId];
+        [[HNetworkQueueManager sharedInstance] cancelRequestWithId:self.requestId];
     }
     NSAssert(self.methodName.length != 0, @"%@ -- methodName property is empty", NSStringFromClass([self class]));
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSString stringWithFormat:@"%@%@", self.baseURL, self.methodName]
@@ -33,26 +35,49 @@
                                                parameter:self.requestBody
                                             headerFields:self.headerFields
                                                signature:self.signature];
+    if (self.allowFetchCacheData) {
+        NSData *data = [self.cacheManager cacheManagerFetchInstanceForIdentifier:request.URL.absoluteString];
+        if (data && data.length > 0) {
+            [self requestCompleted:request
+                    responseObject:data
+                      responseCode:200
+                             error:nil];
+        }
+        if (self.cachePolicy == HNetworkCachePolicyLocal && data && data.length > 0) return ;
+    }
     __weak typeof(self) weakSelf = self;
-    self.requestId = [[HNetworkProxy sharedInstance] enqueue:request
-                                                    callBack:^(id  _Nullable response, NSError * _Nullable error, NSInteger responseCode) {
+    self.requestId = [[HNetworkQueueManager sharedInstance] enqueue:request
+                                                    responseHandler:^(id  _Nullable response, NSError * _Nullable error, NSInteger responseCode) {
                                                         __strong typeof(weakSelf) strongSelf = weakSelf;
-                                                        strongSelf.requestId = -1;
-                                                        [HNetworkLogger printLogWithRequest:request
-                                                                                  parameter:request.parameter
-                                                                             responseObject:response
-                                                                               responseCode:responseCode
-                                                                                      error:error];
-                                                        if (responseCode == 200) {
-                                                            [strongSelf requestSuccess:request forResponseObject:response];
-                                                        } else {
-                                                            [strongSelf requestFailure:request forError:error];
-                                                        }
+                                                        [strongSelf requestCompleted:request
+                                                                      responseObject:response
+                                                                        responseCode:responseCode
+                                                                               error:error];
                                                     }];
+}
+
+- (void)requestCompleted:(NSURLRequest *)request responseObject:(id)responseObject responseCode:(NSInteger)responseCode error:(NSError *)error {
+    self.requestId = -1;
+    [HNetworkLogger printLogWithRequest:request
+                              parameter:request.parameter
+                         responseObject:responseObject
+                           responseCode:responseCode
+                                  error:error];
+    if (responseCode == 200) {
+        [self requestSuccess:request
+           forResponseObject:responseObject];
+    } else {
+        [self requestFailure:request
+                    forError:error];
+    }
 }
 
 - (void)requestSuccess:(NSURLRequest *)request forResponseObject:(id)responseObject {
     if ([responseObject isKindOfClass:[NSData class]]) {
+        if (self.allowSaveCahcheData) {
+            [self.cacheManager cacheManagerSaveInstance:responseObject
+                                          forIdentifier:request.URL.absoluteString];
+        }
         id obj = [NSJSONSerialization JSONObjectWithData:responseObject
                                                  options:NSJSONReadingMutableContainers
                                                    error:nil];
@@ -61,7 +86,10 @@
                                                                         parseClass:self.parseClass];
         if ([self managerInterceptResponseSuccess:self.responseModel] && [network.interceptor request:request
                                                                       shouldFailureWithResponseObject:responseObject]) {
-            _callResult ? _callResult(self.responseModel, request.parameter, nil) : nil;
+            __weak typeof(self) weakSelf = self;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.callResult ? weakSelf.callResult(weakSelf.responseModel, request.parameter, nil) : nil;
+            });
         }
     } else {
         NSError *error = [[NSError alloc] initWithDomain:
@@ -81,15 +109,11 @@
     [[HNetwork sharedInstance].responseHandler handleErrorResponseWithMessage:error.errMsg
                                                                   toastEnable:self.showMessageEnable];
     if ([self managerInterceptResponseFailure:error]) {
-        _callResult ? _callResult(nil, request.parameter, error) : nil;
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.callResult ? weakSelf.callResult(nil, request.parameter, error) : nil;
+        });
     }
-}
-
-
-#pragma mark - display error message enable
-
-- (BOOL)showMessageEnable {
-    return YES;
 }
 
 #pragma mark - Interceptor
@@ -116,16 +140,26 @@
     return @"";
 }
 
-- (HNetworkRequestType)requestType {
-    return HNetworkRequestTypePOST;
-}
-
 - (NSDictionary *)headerFileds {
     return nil;
 }
 
 - (id)requestBody {
     return nil;
+}
+
+- (BOOL)allowSaveCahcheData {
+    return self.cachePolicy != HNetworkCachePolicyRemote
+    && self.cacheManager
+    && [self.cacheManager respondsToSelector:@selector(cacheManagerSaveInstance:forIdentifier:)]
+    && self.requestType == HNetworkRequestTypeGET;
+}
+
+- (BOOL)allowFetchCacheData {
+    return self.cachePolicy != HNetworkCachePolicyRemote
+    && self.cacheManager
+    && [self.cacheManager respondsToSelector:@selector(cacheManagerFetchInstanceForIdentifier:)]
+    && self.requestType == HNetworkRequestTypeGET;
 }
 
 @end

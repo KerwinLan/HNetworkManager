@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
+#import "HNetwork.h"
+#import "DemoNetworkOptions.h"
 
 @interface AppDelegate ()
 
@@ -16,9 +19,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [HNetwork sharedInstance].options = [DemoNetworkOptions new];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = [ViewController new];
     [self.window makeKeyAndVisible];
     return YES;
 }
