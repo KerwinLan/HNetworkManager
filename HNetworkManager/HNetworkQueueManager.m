@@ -44,10 +44,10 @@
         [self.dispatchQueue setObject:task forKey:@(key)];
     } else {
         [self.waitQueue setObject:task forKey:@(key)];
-        responseHandler ? responseHandler(nil, [[NSError alloc] initWithDomain:
-                                                [NSBundle bundleForClass:[self class]].bundleIdentifier
-                                                                          code:-10000
-                                                                      userInfo:@{NSLocalizedDescriptionKey : @"网络不可用"}], -10000) : nil;
+        NSError *error = [[NSError alloc] initWithDomain:[NSBundle bundleForClass:[self class]].bundleIdentifier
+                                                    code:NSURLErrorNotConnectedToInternet
+                                                userInfo:@{NSLocalizedDescriptionKey : @"当前无网络连接，请检查网络设置"}];
+        responseHandler ? responseHandler(nil, error, NSURLErrorNotConnectedToInternet) : nil;
     }
     return key;
 }

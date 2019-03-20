@@ -26,8 +26,10 @@
     [self.manager fetch];
 }
 - (IBAction)action2:(id)sender {
-    self.manager.allowMultiRequest = YES;
-    [self.manager fetch];
+    for (int i = 0; i < 2; i++) {
+        self.manager.allowMultiRequest = YES;
+        [self.manager fetch];
+    }
 }
 - (IBAction)action3:(id)sender {
     self.manager.allowMultiRequest = NO;
@@ -36,20 +38,20 @@
     [self.manager fetch];
 }
 
-- (NSData *)cacheManagerFetchInstanceForIdentifier:(NSString *)identifier {
+- (NSData *)cacheManagerFetchDataForIdentifier:(NSString *)identifier {
     NSLog(@"fetch data from cache");
     return nil;
 }
 
-- (void)cacheManagerSaveInstance:(NSData *)instance forIdentifier:(NSString *)identifier {
+- (void)cacheManagerSaveData:(NSData *)instance forIdentifier:(NSString *)identifier {
     NSLog(@"save data");
 }
 
 - (DemoNetworkManager *)manager {
     if (!_manager) {
         _manager = [[DemoNetworkManager alloc] init];
-        [_manager setCallResult:^(id  _Nullable model, id  _Nullable parameter, NSError * _Nullable error) {
-            
+        [_manager setCompletionHandler:^(id  _Nullable model, id  _Nullable parameter, NSError * _Nullable error) {
+            NSLog(@"completionHandler");
         }];
     }
     return _manager;

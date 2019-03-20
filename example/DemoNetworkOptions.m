@@ -11,7 +11,7 @@
 @implementation DemoNetworkOptions
 
 - (NSString *)baseURL {
-    return @"http://dl.baffedu.com/";
+    return @"xxxxx";
 }
 
 @end

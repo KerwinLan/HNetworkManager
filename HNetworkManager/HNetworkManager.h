@@ -23,10 +23,10 @@ typedef NS_ENUM(NSInteger, HNetworkCachePolicy) {
 /**
  请求完成后会调用该函数，可自行编写缓存逻辑
 
- @param instance 缓存数据
+ @param data 缓存数据
  @param identifier 缓存标识
  */
-- (void)cacheManagerSaveInstance:(NSData *)instance forIdentifier:(NSString *)identifier;
+- (void)cacheManagerSaveData:(NSData *)data forIdentifier:(NSString *)identifier;
 
 /**
  需要获取缓存数据时会调用该函数，可根据缓存的标识获取缓存
@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, HNetworkCachePolicy) {
  @param identifier 缓存标识
  @return 需要返回缓存数据
  */
-- (NSData *)cacheManagerFetchInstanceForIdentifier:(NSString *)identifier;
+- (NSData *)cacheManagerFetchDataForIdentifier:(NSString *)identifier;
 
 @end
 
@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, HNetworkCachePolicy) {
 /**
     接口请求的回调（从缓存获取数据也会调用）
  */
-@property (nonatomic, copy, nullable) void(^callResult)(T _Nullable model, id _Nullable parameter, NSError * _Nullable error);
+@property (nonatomic, copy, nullable) void(^completionHandler)(T _Nullable model, id _Nullable parameter, NSError * _Nullable error);
 
 /**
  当前请求在队列中的标识，可以根据该标识从队列中取消该次请求
@@ -64,7 +64,7 @@ typedef NS_ENUM(NSInteger, HNetworkCachePolicy) {
 /**
     请求路径，必须设置
  */
-@property (nonatomic, copy) NSString *methodName;
+@property (nonatomic, copy) NSString *path;
 
 /**
     请求方式，默认为GET
@@ -126,7 +126,7 @@ typedef NS_ENUM(NSInteger, HNetworkCachePolicy) {
  当前接口请求成功会调用该函数
 
  @param model 服务端返回数据
- @return 返回YES将执行callResult回调，返回NO不执行，默认YES
+ @return 返回YES将执行completionHandler回调，返回NO不执行，默认YES
  */
 - (BOOL)managerInterceptResponseSuccess:(T)model;
 
@@ -134,7 +134,7 @@ typedef NS_ENUM(NSInteger, HNetworkCachePolicy) {
  当接口请求失败会调用该函数
 
  @param error 错误信息
- @return 返回YES将执行callResult回调，返回NO不执行，默认YES
+ @return 返回YES将执行completionHandler回调，返回NO不执行，默认YES
  */
 - (BOOL)managerInterceptResponseFailure:(NSError *)error;
 

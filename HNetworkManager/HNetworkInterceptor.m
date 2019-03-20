@@ -14,7 +14,7 @@
     return YES;
 }
 
-- (BOOL)request:(NSURLRequest *)request shouldFailureWithResponseObject:(id)responseObject {
+- (BOOL)request:(NSURLRequest *)request shouldFailureWithError:(NSError *)error {
     return YES;
 }
 

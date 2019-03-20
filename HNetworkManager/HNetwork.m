@@ -25,6 +25,7 @@
     if (self) {
         self.dispatchHandler = [HNetworkDispatchHandler new];
         self.responseHandler = [HNetworkResponseHandler new];
+        self.interceptor = [HNetworkInterceptor new];
         
         HNetworkOptions *options = [[HNetworkOptions alloc] init];
         options.timeoutInterval = 60.0;

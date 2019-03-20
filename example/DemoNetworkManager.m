@@ -10,8 +10,8 @@
 
 @implementation DemoNetworkManager
 
-- (NSString *)methodName {
-    return @"baff-api/api/member/learning/v2/type";
+- (NSString *)path {
+    return @"xxxxxxxxx";
 }
 
 - (Class)parseClass {
@@ -19,7 +19,7 @@
 }
 
 - (id)requestBody {
-    return @{@"memberId" : @10051, @"version" : @"1.93"};
+    return @{@"xxxx" : @10051, @"xxxx" : @"1.93"};
 }
 
 @end

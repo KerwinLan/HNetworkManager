@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HNetworkInterceptor : NSObject
 
 - (BOOL)request:(NSURLRequest *)request shouldFinishedWithResponseObject:(id)responseObject;
-- (BOOL)request:(NSURLRequest *)request shouldFailureWithResponseObject:(id)responseObject;
+- (BOOL)request:(NSURLRequest *)request shouldFailureWithError:(NSError *)error;
 
 @end
 

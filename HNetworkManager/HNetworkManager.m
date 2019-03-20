@@ -29,14 +29,14 @@
     if (self.requestId != -1 && !self.allowMultiRequest) {
         [[HNetworkQueueManager sharedInstance] cancelRequestWithId:self.requestId];
     }
-    NSAssert(self.methodName.length != 0, @"%@ -- methodName property is empty", NSStringFromClass([self class]));
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSString stringWithFormat:@"%@%@", self.baseURL, self.methodName]
+    NSAssert(self.path.length != 0, @"%@ -- methodName property is empty", NSStringFromClass([self class]));
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSString stringWithFormat:@"%@%@", self.baseURL, self.path]
                                              requestType:self.requestType
                                                parameter:self.requestBody
                                             headerFields:self.headerFields
                                                signature:self.signature];
     if (self.allowFetchCacheData) {
-        NSData *data = [self.cacheManager cacheManagerFetchInstanceForIdentifier:request.URL.absoluteString];
+        NSData *data = [self.cacheManager cacheManagerFetchDataForIdentifier:request.URL.absoluteString];
         if (data && data.length > 0) {
             [self requestCompleted:request
                     responseObject:data
@@ -64,18 +64,16 @@
                            responseCode:responseCode
                                   error:error];
     if (responseCode == 200) {
-        [self requestSuccess:request
-           forResponseObject:responseObject];
+        [self requestSuccess:request forResponseObject:responseObject];
     } else {
-        [self requestFailure:request
-                    forError:error];
+        [self requestFailure:request forError:error];
     }
 }
 
 - (void)requestSuccess:(NSURLRequest *)request forResponseObject:(id)responseObject {
     if ([responseObject isKindOfClass:[NSData class]]) {
         if (self.allowSaveCahcheData) {
-            [self.cacheManager cacheManagerSaveInstance:responseObject
+            [self.cacheManager cacheManagerSaveData:responseObject
                                           forIdentifier:request.URL.absoluteString];
         }
         id obj = [NSJSONSerialization JSONObjectWithData:responseObject
@@ -85,10 +83,10 @@
         self.responseModel = [network.responseHandler parseResponseWithResponseObj:obj
                                                                         parseClass:self.parseClass];
         if ([self managerInterceptResponseSuccess:self.responseModel] && [network.interceptor request:request
-                                                                      shouldFailureWithResponseObject:responseObject]) {
+                                                                      shouldFinishedWithResponseObject:responseObject]) {
             __weak typeof(self) weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                weakSelf.callResult ? weakSelf.callResult(weakSelf.responseModel, request.parameter, nil) : nil;
+                weakSelf.completionHandler ? weakSelf.completionHandler(weakSelf.responseModel, request.parameter, nil) : nil;
             });
         }
     } else {
@@ -108,10 +106,10 @@
     }
     [[HNetwork sharedInstance].responseHandler handleErrorResponseWithMessage:error.errMsg
                                                                   toastEnable:self.showMessageEnable];
-    if ([self managerInterceptResponseFailure:error]) {
+    if ([self managerInterceptResponseFailure:error] && [[HNetwork sharedInstance].interceptor request:request shouldFailureWithError:error]) {
         __weak typeof(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.callResult ? weakSelf.callResult(nil, request.parameter, error) : nil;
+            weakSelf.completionHandler ? weakSelf.completionHandler(nil, request.parameter, error) : nil;
         });
     }
 }
@@ -151,14 +149,14 @@
 - (BOOL)allowSaveCahcheData {
     return self.cachePolicy != HNetworkCachePolicyRemote
     && self.cacheManager
-    && [self.cacheManager respondsToSelector:@selector(cacheManagerSaveInstance:forIdentifier:)]
+    && [self.cacheManager respondsToSelector:@selector(cacheManagerSaveData:forIdentifier:)]
     && self.requestType == HNetworkRequestTypeGET;
 }
 
 - (BOOL)allowFetchCacheData {
     return self.cachePolicy != HNetworkCachePolicyRemote
     && self.cacheManager
-    && [self.cacheManager respondsToSelector:@selector(cacheManagerFetchInstanceForIdentifier:)]
+    && [self.cacheManager respondsToSelector:@selector(cacheManagerFetchDataForIdentifier:)]
     && self.requestType == HNetworkRequestTypeGET;
 }
 

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HNetworkManager"
-  s.version      = "0.0.3"
+  s.version      = "0.0.5"
   s.summary      = "A network manager framework"
   s.homepage     = "https://github.com/KerwinLan/HNetworkManager"
   s.license      = "MIT"
