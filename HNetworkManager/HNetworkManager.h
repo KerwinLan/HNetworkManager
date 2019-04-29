@@ -113,6 +113,11 @@ typedef NS_ENUM(NSInteger, HNetworkCachePolicy) {
  */
 @property (nonatomic, assign) HNetworkCachePolicy cachePolicy;
 
+/**
+ 参数需要拼接到URL中的类型的请求，默认只有GET
+ */
+@property (nonatomic, strong) NSSet<NSString *> *propsInURLMethod;
+
 
 /**
  发起请求之前会调用该函数

@@ -13,10 +13,11 @@
 
 @implementation NSURLRequest (HExtension)
 
-+ (NSURLRequest *)requestWithURL:(NSString *)url requestType:(HNetworkRequestType)requestType parameter:(NSObject *)parameter headerFields:(NSDictionary *)headerFields signature:(id<HNetworkSignature>)signature
++ (NSURLRequest *)requestWithURL:(NSString *)url requestType:(HNetworkRequestType)requestType parameter:(NSObject *)parameter headerFields:(NSDictionary *)headerFields signature:(id<HNetworkSignature>)signature propsInURLMethod:(NSSet<NSString *> *)propsInURLMethod
 {
     NSMutableURLRequest *request;
-    if (requestType == HNetworkRequestTypeGET && [parameter isKindOfClass:[NSDictionary class]]) {
+    NSString *method = [self requestMethodWithType:requestType];
+    if ([propsInURLMethod containsObject:method] && [parameter isKindOfClass:[NSDictionary class]]) {
         BOOL shouldSignature = signature && [signature respondsToSelector:@selector(signatureWithData:)];
         if (shouldSignature) {
             parameter = [signature signatureWithData:parameter];
@@ -34,11 +35,11 @@
     request.parameter = parameter;
     [request setAllHTTPHeaderFields:fields];
     request.timeoutInterval = [HNetwork sharedInstance].options.timeoutInterval;
-    [request setRequestMethodWithType:requestType];
+    [request setHTTPMethod:method];
     return request;
 }
 
-- (void)setRequestMethodWithType:(HNetworkRequestType)type
++ (NSString *)requestMethodWithType:(HNetworkRequestType)type
 {
     NSString *method;
     switch (type) {
@@ -57,9 +58,7 @@
         default:
             break;
     }
-    if ([self isKindOfClass:[NSMutableURLRequest class]]) {
-        [((NSMutableURLRequest *) self) setHTTPMethod:method];
-    }
+    return method;
 }
 
 @end

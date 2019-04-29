@@ -24,7 +24,8 @@ typedef NS_ENUM(NSInteger, HNetworkRequestType) {
                      requestType:(HNetworkRequestType)requestType
                        parameter:(NSObject * _Nullable)parameter
                     headerFields:(NSDictionary * _Nullable)headerFields
-                       signature:(id<HNetworkSignature> _Nullable)signature;
+                       signature:(id<HNetworkSignature> _Nullable)signature
+                propsInURLMethod:(NSSet<NSString *> *)propsInURLMethod;
 
 @end
 

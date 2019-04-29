@@ -21,6 +21,7 @@
         self.requestType = HNetworkRequestTypeGET;
         self.showMessageEnable = YES;
         self.cachePolicy = HNetworkCachePolicyRemote;
+        self.propsInURLMethod = [[NSSet alloc] initWithObjects:@"GET", nil];
     }
     return self;
 }
@@ -34,7 +35,8 @@
                                              requestType:self.requestType
                                                parameter:self.requestBody
                                             headerFields:self.headerFields
-                                               signature:self.signature];
+                                               signature:self.signature
+                                        propsInURLMethod:self.propsInURLMethod];
     if (self.allowFetchCacheData) {
         NSData *data = [self.cacheManager cacheManagerFetchDataForIdentifier:request.URL.absoluteString];
         if (data && data.length > 0) {
@@ -74,7 +76,7 @@
     if ([responseObject isKindOfClass:[NSData class]]) {
         if (self.allowSaveCahcheData) {
             [self.cacheManager cacheManagerSaveData:responseObject
-                                          forIdentifier:request.URL.absoluteString];
+                                      forIdentifier:request.URL.absoluteString];
         }
         id obj = [NSJSONSerialization JSONObjectWithData:responseObject
                                                  options:NSJSONReadingMutableContainers
@@ -83,7 +85,7 @@
         self.responseModel = [network.responseHandler parseResponseWithResponseObj:obj
                                                                         parseClass:self.parseClass];
         if ([self managerInterceptResponseSuccess:self.responseModel] && [network.interceptor request:request
-                                                                      shouldFinishedWithResponseObject:responseObject]) {
+                                                                     shouldFinishedWithResponseObject:responseObject]) {
             __weak typeof(self) weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{
                 weakSelf.completionHandler ? weakSelf.completionHandler(weakSelf.responseModel, request.parameter, nil) : nil;
