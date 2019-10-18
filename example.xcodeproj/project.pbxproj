@@ -30,6 +30,7 @@
 		D3C037EE2240E769007FB4FE /* DemoNetworkOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C037ED2240E769007FB4FE /* DemoNetworkOptions.m */; };
 		D3C037F22240F05F007FB4FE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C037F02240F05F007FB4FE /* ViewController.m */; };
 		D3C037F32240F05F007FB4FE /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3C037F12240F05F007FB4FE /* ViewController.xib */; };
+		D3CF583722939B7B00B9A997 /* NetworkLifeCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF583622939B7B00B9A997 /* NetworkLifeCircle.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,8 @@
 		D3C037EF2240F05F007FB4FE /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		D3C037F02240F05F007FB4FE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		D3C037F12240F05F007FB4FE /* ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		D3CF583522939B7B00B9A997 /* NetworkLifeCircle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkLifeCircle.h; sourceTree = "<group>"; };
+		D3CF583622939B7B00B9A997 /* NetworkLifeCircle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkLifeCircle.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +164,8 @@
 				D3C037EF2240F05F007FB4FE /* ViewController.h */,
 				D3C037F02240F05F007FB4FE /* ViewController.m */,
 				D3C037F12240F05F007FB4FE /* ViewController.xib */,
+				D3CF583522939B7B00B9A997 /* NetworkLifeCircle.h */,
+				D3CF583622939B7B00B9A997 /* NetworkLifeCircle.m */,
 			);
 			path = example;
 			sourceTree = "<group>";
@@ -356,6 +361,7 @@
 				5FEB1B1621B91BB000A318F8 /* HNetworkManager.m in Sources */,
 				5FEB1B0121B91BA000A318F8 /* HNetworkOptions.m in Sources */,
 				5FEB1AC921B91B0B00A318F8 /* AppDelegate.m in Sources */,
+				D3CF583722939B7B00B9A997 /* NetworkLifeCircle.m in Sources */,
 				5FEB1B1021B91BB000A318F8 /* HNetworkLogger.m in Sources */,
 				5FEB1B1121B91BB000A318F8 /* NSObject+HNetworkParameter.m in Sources */,
 				D3C037E82240E681007FB4FE /* DemoNetworkManager.m in Sources */,

@@ -50,12 +50,12 @@
     __weak typeof(self) weakSelf = self;
     self.requestId = [[HNetworkQueueManager sharedInstance] enqueue:request
                                                     responseHandler:^(id  _Nullable response, NSError * _Nullable error, NSInteger responseCode) {
-                                                        __strong typeof(weakSelf) strongSelf = weakSelf;
-                                                        [strongSelf requestCompleted:request
-                                                                      responseObject:response
-                                                                        responseCode:responseCode
-                                                                               error:error];
-                                                    }];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf requestCompleted:request
+                      responseObject:response
+                        responseCode:responseCode
+                               error:error];
+    }];
 }
 
 - (void)requestCompleted:(NSURLRequest *)request responseObject:(id)responseObject responseCode:(NSInteger)responseCode error:(NSError *)error {
@@ -81,11 +81,10 @@
         id obj = [NSJSONSerialization JSONObjectWithData:responseObject
                                                  options:NSJSONReadingMutableContainers
                                                    error:nil];
-        HNetwork *network = [HNetwork sharedInstance];
-        self.responseModel = [network.responseHandler parseResponseWithResponseObj:obj
-                                                                        parseClass:self.parseClass];
-        if ([self managerInterceptResponseSuccess:self.responseModel] && [network.interceptor request:request
-                                                                     shouldFinishedWithResponseObject:responseObject]) {
+        self.responseModel = [[HNetwork sharedInstance].responseHandler parseResponseWithResponseObj:obj
+                                                                                          parseClass:self.parseClass];
+        
+        if ([self allowPerformSuccessCallback:self.responseModel]) {
             __weak typeof(self) weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{
                 weakSelf.completionHandler ? weakSelf.completionHandler(weakSelf.responseModel, request.parameter, nil) : nil;
@@ -106,9 +105,11 @@
                                            code:NSURLErrorUnknown
                                        userInfo:@{NSLocalizedDescriptionKey : @"未知错误"}];
     }
+    
     [[HNetwork sharedInstance].responseHandler handleErrorResponseWithMessage:error.errMsg
                                                                   toastEnable:self.showMessageEnable];
-    if ([self managerInterceptResponseFailure:error] && [[HNetwork sharedInstance].interceptor request:request shouldFailureWithError:error]) {
+    
+    if ([self allowPerformFailureCallback:error]) {
         __weak typeof(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             weakSelf.completionHandler ? weakSelf.completionHandler(nil, request.parameter, error) : nil;
@@ -160,6 +161,18 @@
     && self.cacheManager
     && [self.cacheManager respondsToSelector:@selector(cacheManagerFetchDataForIdentifier:)]
     && self.requestType == HNetworkRequestTypeGET;
+}
+
+- (BOOL)allowPerformSuccessCallback:(id)object {
+    return [self managerInterceptResponseSuccess:object]
+    && [[HNetwork sharedInstance].interceptor manager:self
+                     performResponseSuccessWithObject:object];
+}
+
+- (BOOL)allowPerformFailureCallback:(NSError *)error {
+    return [self managerInterceptResponseFailure:error]
+    && [[HNetwork sharedInstance].interceptor manager:self
+                      performResponseFailureWithError:error];;
 }
 
 @end

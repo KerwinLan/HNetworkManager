@@ -15,7 +15,8 @@ typedef NS_ENUM(NSInteger, HNetworkRequestType) {
     HNetworkRequestTypeGET = 0,
     HNetworkRequestTypePOST,
     HNetworkRequestTypeDELETE,
-    HNetworkRequestTypePUT
+    HNetworkRequestTypePUT,
+    HNetworkRequestTypePATCH
 };
 
 @interface NSURLRequest (HExtension)

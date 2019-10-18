@@ -43,17 +43,20 @@
 {
     NSString *method;
     switch (type) {
-            case HNetworkRequestTypeGET:
+        case HNetworkRequestTypeGET:
             method = @"GET";
             break;
-            case HNetworkRequestTypePOST:
+        case HNetworkRequestTypePOST:
             method = @"POST";
             break;
-            case HNetworkRequestTypePUT:
+        case HNetworkRequestTypePUT:
             method = @"PUT";
             break;
-            case HNetworkRequestTypeDELETE:
+        case HNetworkRequestTypeDELETE:
             method = @"DELETE";
+            break;
+        case HNetworkRequestTypePATCH:
+            method = @"PATCH";
             break;
         default:
             break;

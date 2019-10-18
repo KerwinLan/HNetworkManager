@@ -18,4 +18,12 @@
     return YES;
 }
 
+- (BOOL)manager:(HNetworkManager *)manager performResponseSuccessWithObject:(id)object {
+    return YES;
+}
+
+- (BOOL)manager:(HNetworkManager *)manager performResponseFailureWithError:(NSError *)error {
+    return YES;
+}
+
 @end

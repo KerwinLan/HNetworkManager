@@ -10,10 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class HNetworkManager;
+
 @interface HNetworkInterceptor : NSObject
 
-- (BOOL)request:(NSURLRequest *)request shouldFinishedWithResponseObject:(id)responseObject;
-- (BOOL)request:(NSURLRequest *)request shouldFailureWithError:(NSError *)error;
+- (BOOL)request:(NSURLRequest *)request shouldFinishedWithResponseObject:(id)responseObject __deprecated_msg("Use -manager:performResponseSuccessWithObject:");
+- (BOOL)request:(NSURLRequest *)request shouldFailureWithError:(NSError *)error __deprecated_msg("Use -manager:performResponseFailureWithError:");
+
+- (BOOL)manager:(HNetworkManager *)manager performResponseSuccessWithObject:(id)object;
+- (BOOL)manager:(HNetworkManager *)manager performResponseFailureWithError:(NSError *)error;
 
 @end
 
